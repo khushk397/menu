@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradise Hotel & Restaurant - Digital Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            color: #1a1a1a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #d4af37;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: headerSlide 1s ease;
+        }
+
+        @keyframes headerSlide {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(212, 175, 55, 0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            top: 10px;
+            z-index: 100;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category-nav.scrolled {
+            top: 0;
+            border-radius: 0 0 15px 15px;
+            padding: 10px;
+        }
+
+        .category-btn {
+            padding: 12px 20px;
+            background-color: #fff;
+            border: 2px solid #d4af37;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .category-btn:hover::before {
+            left: 100%;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background-color: #1a1a1a;
+            color: #d4af37;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 26, 26, 0.3);
+            border-color: #1a1a1a;
+        }
+
+        .category-btn i {
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+
+        .menu-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .menu-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #d4af37;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid #d4af37;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .menu-item:hover::after {
+            opacity: 1;
+        }
+
+        .item-content {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1a1a1a;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: #d4af37;
+            font-size: 1.2rem;
+        }
+
+        .item-desc {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            background-color: #f9f5eb;
+            color: #1a1a1a;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover .tag {
+            background-color: #f5e8c8;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #d4af37;
+            border-radius: 10px;
+            animation: fadeIn 1s ease;
+        }
+
+        .social-icons {
+            margin: 20px 0;
+        }
+
+        .social-icons a {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .social-icons a:hover {
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            margin: 15px 0;
+        }
+
+        .address {
+            margin-top: 10px;
+            opacity: 0.8;
+            color: #ffffff;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #d4af37;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .category-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .category-nav {
+                border-radius: 20px;
+                padding: 10px;
+            }
+        }
+
+        .special-note {
+            background-color: #f9f5eb;
+            border-left: 4px solid #d4af37;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #1a1a1a;
+            animation: fadeIn 1s ease;
+        }
+
+        .menu-highlight {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #d4af37;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .menu-highlight h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .menu-highlight p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Floating action button for quick navigation */
+        .floating-nav-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .floating-nav-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #d4af37;
+            color: #1a1a1a;
+        }
+
+        /* Quick navigation panel */
+        .quick-nav-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .quick-nav-panel.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quick-nav-btn {
+            padding: 8px 15px;
+            background: #f9f5eb;
+            border: 1px solid #d4af37;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quick-nav-btn:hover {
+            background: #1a1a1a;
+            color: #d4af37;
+        }
+
+        /* Item detail modal */
+        .item-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .item-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .item-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #1a1a1a;
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #d4af37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-to-top.active {
+            opacity: 1;
+            bottom: 90px;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            background: #1a1a1a;
+            color: #d4af37;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <h1>PARADISE</h1>
+            <p>HOTEL & RESTAURANT</p>
+        </header>
+
+        <div class="menu-highlight">
+            <h2>Exquisite Dining Experience</h2>
+            <p>Indulge in our carefully crafted menu featuring the finest ingredients and authentic flavors from across
+                India</p>
+        </div>
+
+        <div class="category-nav">
+            <button class="category-btn active" data-category="starters"><i
+                    class="fas fa-utensil-spoon"></i>Starters</button>
+            <button class="category-btn" data-category="soups">Soups</button>
+            <button class="category-btn" data-category="chinese"><i class="fa-solid fa-chopsticks"></i>Chinese</button>
+            <button class="category-btn" data-category="salads"><i class="fas fa-leaf"></i>Salads</button>
+            <button class="category-btn" data-category="raita"><i class="fas fa-mortar-pestle"></i>Raita</button>
+            <button class="category-btn" data-category="tandoor"><i class="fas fa-fire"></i>Tandoor</button>
+            <button class="category-btn" data-category="main-course"><i class="fas fa-utensils"></i>Main Course</button>
+            <button class="category-btn" data-category="beverages"><i
+                    class="fas fa-glass-martini-alt"></i>Beverages</button>
+            <button class="category-btn" data-category="desserts"><i class="fas fa-ice-cream"></i>Desserts</button>
+        </div>
+
+        <div class="special-note">
+            <p>All our dishes are prepared with the freshest ingredients and authentic spices</p>
+            <h2>Today's special</h2>
+            <p>
+                <br>
+                <br>
+                <br>
+            </p>
+        </div>
+
+        <div class="menu-sections">
+            <!-- Starters Section -->
+            <section id="starters" class="menu-section active">
+                <h2 class="section-title">Let's Start</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Papad Roasted / Fry</span>
+                                <span class="item-price">₹20</span>
+                            </div>
+                            <p class="item-desc">Crispy papad, roasted or fried to perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Papad Fry / Roasted Masala</span>
+                                <span class="item-price">₹30</span>
+                            </div>
+                            <p class="item-desc">Spiced papad with special masala</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Peanut Chaat</span>
+                                <span class="item-price">₹79</span>
+                            </div>
+                            <p class="item-desc">Tangy and spicy peanut chaat</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Peanut Garlic Fry</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Butter Fried Peanut and Garlic</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chana Roast</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Deep fried chickpeas</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">French Fries</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Golden strips of crispy delight</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Peri Peri Fries</span>
+                                <span class="item-price">₹109</span>
+                            </div>
+                            <p class="item-desc">Fiery fries with a bold kick</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Butter Milk</span>
+                                <span class="item-price">₹39</span>
+                            </div>
+                            <p class="item-desc">Smooth sip with a zesty twist</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Lassi</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">Chilled bliss in every sip</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Fresh Lime Soda / Water</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">A splash of citrusy refreshment</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Soups Section -->
+            <section id="soups" class="menu-section">
+                <h2 class="section-title">SOUP</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Tomato Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Roasted plum tomato soup served with home made bread crouton's and
+                                cream</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Manchow Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Spicy Indo Chinese soup with vegetable & crispy noodles</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Hot & Sour Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">A tangy spicy soup from Mandarin & Sichuan province of China</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Clear Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Light and clear vegetable soup</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Sweet Corn Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">A creamy hug in every spoonful</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Lemon Coriander Soup</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">A citrusy swirl with a fresh coriander lift</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--Salads section-->
+            <section id="salads" class="menu-section">
+                <h2 class="section-title">Your Green Garden</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Healthy Green Salad </span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">A vibrant bowl of leafy goodness</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Onion Salad</span>
+                                <span class="item-price">₹39</span>
+                            </div>
+                            <p class="item-desc">A punchy mix of sliced onions and spice</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Punjabi Cuts</span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">Hearty chunks with authentic Punjabi flair</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Sprout Salad</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">A protein-packed crunch with garden-fresh vibes</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Corn Chaat</span>
+                                <span class="item-price">₹139</span>
+                            </div>
+                            <p class="item-desc">A vibrant mix of corn, spice, and zest</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- raita section-->
+            <section id="raita" class="menu-section">
+                <h2 class="section-title">All About Dahi</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Plain Curd </span>
+                                <span class="item-price">₹49</span>
+                            </div>
+                            <p class="item-desc"> Mild. Creamy. Cooling</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Boondi Raita</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">Your refreshing plus-one to every meal</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Mix Veg Raita</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">Wholesome veggies in a chilled embrace</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Mix Fruit Raita</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Wholesome veggies in a chilled embrace</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Pineapple Raita</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">A chilled swirl of pineapple bliss</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cucumber Raita</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Chilled cucumber meets creamy comfort</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tandoor" class="menu-section">
+                <h2 class="section-title">Oyela Oyela Koyla</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Grilled paneer, bold flavors, unforgettable bite</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Peshawari Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Creamy, smoky, and unapologetically bold</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Haryali Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer bathed in herbs, kissed by flame</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Chingari Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with attitude — grilled, spiced, and unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Pahadi Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer kissed by mint and fire — the pahadi way</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Achari Tikka</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with a punch — bold, tangy, and charred</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Hara Bhara Kebab</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">The kebab that proves green can be bold</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dahi Kebab</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Delicate curd patties with a golden crunch and a creamy heart</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Tandoori Platter</span>
+                                <span class="item-price">₹289</span>
+                            </div>
+                            <p class="item-desc">India's grill game at its finest — one platter, endless flavor</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="chinese" class="menu-section">
+                <h2 class="section-title">Wohi Jo Hum China Sa Laye</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Hakka Noodles</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Crunchy veggies, bold sauces, and noodle nirvana</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Schezwan Noodles</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Wok-tossed noodles drenched in Schezwan swagger</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilly Garlic Noodles</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Garlic that bites. Chili that lingers. Noodles that vanish</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Burnt Garlic Noodles</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Smoked to perfection, stirred with soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Fried Rice</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Golden rice, crisp veggies, and a whisper of soy</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Schezwan Fried Rice</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Wok-fired rice with a spicy Schezwan kick</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilly Garlic Fried Rice</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Garlic that sizzles. Chili that bites. Rice that rocks</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Burnt Garlic Fried Rice</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Golden garlic. Smoky whispers. Stir-fried perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Manchurian</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Where street-style crunch meets saucy indulgence</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Honey Chilly Patato</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Crisp meets kick — glazed potatoes with a sweet sting</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Crispy Veg</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">A wok-tossed riot of flavor and texture</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Crispy Corn</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Crunch that kicks — corn never tasted this wild</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Spring Roll</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">A golden roll of street-style magic</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Gold Coin</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">A treasure trove of taste in every coin</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Lollipop</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Crunch on a stick — veggies never looked this cool</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilly Paneer</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with a punch — bold, saucy, unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer 65</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Crispy paneer cubes with a South Indian soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilly Mushroom/Baby Corn</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">A stir-fry storm with a tender twist</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Black Pepper</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Black pepper takes the lead — bold, balanced, unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Jalapeno Cheese Cigar Roll</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Cheese, heat, and crunch — all rolled into one</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Satay</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">From Delhi to Bangkok — paneer takes the satay route</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Hot Garlic Sauce</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Garlic takes the lead, paneer steals the show</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Crispy</span>
+                                <span class="item-price">₹239</span>
+                            </div>
+                            <p class="item-desc">Paneer with attitude — bold, glazed, unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Hong Kong</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with a passport — bold flavors from Hong Kong streets</p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    <footer>
+        <h3>Follow Us On</h3>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+        </div>
+        <div class="contact-info">
+            <p><i class="fas fa-phone"></i> 9407191111</p>
+        </div>
+        <div class="address">
+            <p>Indore Ahmedabad Road, In Front of Amrit Paper Mill, Village, Hatod</p>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Floating navigation button -->
+    <div class="floating-nav-btn">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Quick navigation panel -->
+    <div class="quick-nav-panel">
+        <button class="quick-nav-btn" data-category="starters">Starters</button>
+        <button class="quick-nav-btn" data-category="soups">Soups</button>
+        <button class="quick-nav-btn" data-category="salads">Salads</button>
+        <button class="quick-nav-btn" data-category="raita">Raita</button>
+        <button class="quick-nav-btn" data-category="tandoor">Tandoor</button>
+        <button class="quick-nav-btn" data-category="main-course">Main Course</button>
+        <button class="quick-nav-btn" data-category="beverages">Beverages</button>
+        <button class="quick-nav-btn" data-category="desserts">Desserts</button>
+    </div>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Item detail modal -->
+    <div class="item-modal">
+        <div class="modal-content">
+            <span class="close-modal"><i class="fas fa-times"></i></span>
+            <h2 class="modal-title"></h2>
+            <p class="modal-price"></p>
+            <p class="modal-desc"></p>
+            <div class="modal-tags"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const menuSections = document.querySelectorAll('.menu-section');
+            const floatingNavBtn = document.querySelector('.floating-nav-btn');
+            const quickNavPanel = document.querySelector('.quick-nav-panel');
+            const quickNavBtns = document.querySelectorAll('.quick-nav-btn');
+            const scrollToTopBtn = document.querySelector('.scroll-to-top');
+            const categoryNav = document.querySelector('.category-nav');
+            const menuItems = document.querySelectorAll('.menu-item');
+            const itemModal = document.querySelector('.item-modal');
+            const closeModal = document.querySelector('.close-modal');
+
+            // Category navigation
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const category = this.getAttribute('data-category');
+
+                    // Update active button
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Show corresponding section
+                    menuSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === category) {
+                            section.classList.add('active');
+                        }
+                    });
+
+                    // Close quick nav panel if open
+                    quickNavPanel.classList.remove('active');
+                });
+            });
+
+            // Floating navigation button
+            floatingNavBtn.addEventListener('click', function () {
+                quickNavPanel.classList.toggle('active');
+            });
+
+            // Quick navigation buttons
+            quickNavBtns.forEach(button => {
+                button.addEventListener('click', function () {
+                    const category = this.getAttribute('data-category');
+
+                    // Update active button in main nav
+                    categoryButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        if (btn.getAttribute('data-category') === category) {
+                            btn.classList.add('active');
+                        }
+                    });
+
+                    // Show corresponding section
+                    menuSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === category) {
+                            section.classList.add('active');
+                            section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+
+                    // Close quick nav panel
+                    quickNavPanel.classList.remove('active');
+                });
+            });
+
+            // Scroll to top button
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('active');
+                } else {
+                    scrollToTopBtn.classList.remove('active');
+                }
+
+                // Sticky category nav
+                if (window.scrollY > 100) {
+                    categoryNav.classList.add('scrolled');
+                } else {
+                    categoryNav.classList.remove('scrolled');
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Menu item click for details
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const name = this.querySelector('.item-name').textContent;
+                    const price = this.querySelector('.item-price').textContent;
+                    const desc = this.querySelector('.item-desc').textContent;
+                    const tags = this.querySelector('.item-tags').innerHTML;
+
+                    document.querySelector('.modal-title').textContent = name;
+                    document.querySelector('.modal-price').textContent = price;
+                    document.querySelector('.modal-desc').textContent = desc;
+                    document.querySelector('.modal-tags').innerHTML = tags;
+
+                    itemModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', function () {
+                itemModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close modal when clicking outside
+            itemModal.addEventListener('click', function (e) {
+                if (e.target === itemModal) {
+                    itemModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
