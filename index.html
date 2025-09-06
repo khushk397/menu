@@ -9,547 +9,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-            color: #1a1a1a;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 0;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: #d4af37;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            animation: headerSlide 1s ease;
-        }
-
-        @keyframes headerSlide {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(212, 175, 55, 0.1)"/></svg>');
-            background-size: cover;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            position: relative;
-        }
-
-        .category-nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            top: 10px;
-            z-index: 100;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .category-nav.scrolled {
-            top: 0;
-            border-radius: 0 0 15px 15px;
-            padding: 10px;
-        }
-
-        .category-btn {
-            padding: 12px 20px;
-            background-color: #fff;
-            border: 2px solid #d4af37;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #1a1a1a;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: all 0.6s ease;
-        }
-
-        .category-btn:hover::before {
-            left: 100%;
-        }
-
-        .category-btn:hover,
-        .category-btn.active {
-            background-color: #1a1a1a;
-            color: #d4af37;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(26, 26, 26, 0.3);
-            border-color: #1a1a1a;
-        }
-
-        .category-btn i {
-            margin-right: 8px;
-            font-size: 0.9em;
-        }
-
-        .menu-section {
-            margin-bottom: 40px;
-            display: none;
-        }
-
-        .menu-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #1a1a1a;
-            font-size: 2.2rem;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: #d4af37;
-        }
-
-        .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .menu-item {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 4px solid #d4af37;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .menu-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .menu-item:hover::after {
-            opacity: 1;
-        }
-
-        .item-content {
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .item-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #1a1a1a;
-        }
-
-        .item-price {
-            font-weight: 700;
-            color: #d4af37;
-            font-size: 1.2rem;
-        }
-
-        .item-desc {
-            color: #4a4a4a;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        .item-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .tag {
-            background-color: #f9f5eb;
-            color: #1a1a1a;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .menu-item:hover .tag {
-            background-color: #f5e8c8;
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: #d4af37;
-            border-radius: 10px;
-            animation: fadeIn 1s ease;
-        }
-
-        .social-icons {
-            margin: 20px 0;
-        }
-
-        .social-icons a {
-            color: #d4af37;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .social-icons a:hover {
-            color: #ffffff;
-            transform: translateY(-3px);
-        }
-
-        .contact-info {
-            margin: 15px 0;
-        }
-
-        .address {
-            margin-top: 10px;
-            opacity: 0.8;
-            color: #ffffff;
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #d4af37;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .menu-items {
-                grid-template-columns: 1fr;
-            }
-
-            header h1 {
-                font-size: 2.2rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .category-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-
-            .logo {
-                font-size: 2rem;
-            }
-
-            .category-nav {
-                border-radius: 20px;
-                padding: 10px;
-            }
-        }
-
-        .special-note {
-            background-color: #f9f5eb;
-            border-left: 4px solid #d4af37;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-            font-style: italic;
-            color: #1a1a1a;
-            animation: fadeIn 1s ease;
-        }
-
-        .menu-highlight {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: #d4af37;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 30px 0;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            animation: slideIn 1s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .menu-highlight h2 {
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-
-        .menu-highlight p {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Floating action button for quick navigation */
-        .floating-nav-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #1a1a1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d4af37;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .floating-nav-btn:hover {
-            transform: scale(1.1) rotate(90deg);
-            background: #d4af37;
-            color: #1a1a1a;
-        }
-
-        /* Quick navigation panel */
-        .quick-nav-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            z-index: 999;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .quick-nav-panel.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .quick-nav-btn {
-            padding: 8px 15px;
-            background: #f9f5eb;
-            border: 1px solid #d4af37;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .quick-nav-btn:hover {
-            background: #1a1a1a;
-            color: #d4af37;
-        }
-
-        /* Item detail modal */
-        .item-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .item-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .item-modal.active .modal-content {
-            transform: scale(1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #1a1a1a;
-        }
-
-        /* Scroll to top button */
-        .scroll-to-top {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: #d4af37;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1a1a1a;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .scroll-to-top.active {
-            opacity: 1;
-            bottom: 90px;
-        }
-
-        .scroll-to-top:hover {
-            transform: translateY(-5px);
-            background: #1a1a1a;
-            color: #d4af37;
-        }
-    </style>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -568,32 +30,34 @@
                 India</p>
         </div>
 
-        <div class="category-nav">
-            <button class="category-btn active" data-category="starters"><i
-                    class="fas fa-utensil-spoon"></i>Starters</button>
-            <button class="category-btn" data-category="soups">Soups</button>
-            <button class="category-btn" data-category="chinese"><i class="fa-solid fa-chopsticks"></i>Chinese</button>
-            <button class="category-btn" data-category="salads"><i class="fas fa-leaf"></i>Salads</button>
-            <button class="category-btn" data-category="raita"><i class="fas fa-mortar-pestle"></i>Raita</button>
-            <button class="category-btn" data-category="tandoor"><i class="fas fa-fire"></i>Tandoor</button>
-            <button class="category-btn" data-category="main-course"><i class="fas fa-utensils"></i>Main Course</button>
-            <button class="category-btn" data-category="beverages"><i
-                    class="fas fa-glass-martini-alt"></i>Beverages</button>
-            <button class="category-btn" data-category="desserts"><i class="fas fa-ice-cream"></i>Desserts</button>
+        <div class="category-nav-container">
+            <div class="category-nav">
+                <button class="category-btn active" data-category="starters"><i
+                        class="fas fa-utensil-spoon"></i>Starters</button>
+                <button class="category-btn" data-category="soups"><i class="fas fa-bowl-food"></i>Soups</button>
+                <button class="category-btn" data-category="sandwich"><i class="fas fa-bread-slice"></i>Sandwich</button>
+                <button class="category-btn" data-category="chinese"><i class="fas fa-utensils"></i>Chinese</button>
+                <button class="category-btn" data-category="italian"><i class="fas fa-pizza-slice"></i>Italian</button>
+                <button class="category-btn" data-category="beverages"><i
+                        class="fas fa-glass-martini-alt"></i>Beverages</button>
+                <button class="category-btn" data-category="salads"><i class="fas fa-leaf"></i>Salads</button>
+                <button class="category-btn" data-category="raita"><i class="fas fa-mortar-pestle"></i>Raita</button>
+                <button class="category-btn" data-category="tandoor"><i class="fas fa-fire"></i>Tandoor</button>
+                <button class="category-btn" data-category="main-course"><i class="fas fa-utensils"></i>Main Course</button>
+                <button class="category-btn" data-category="desserts"><i class="fas fa-ice-cream"></i>Desserts</button>
+            </div>
         </div>
 
         <div class="special-note">
             <p>All our dishes are prepared with the freshest ingredients and authentic spices</p>
             <h2>Today's special</h2>
-            <p>
-                <br>
-                <br>
-                <br>
-            </p>
+            <p style="font-size: 19px;">Paneer Satay</p>
+            <p style="font-size: 19px;">Paneer Maharaja</p>
+            <p style="font-size: 19px;">Cold Coffee</p>
+            <p style="font-size: 19px;">Brownie With Ice Cream</p>
         </div>
 
         <div class="menu-sections">
-            <!-- Starters Section -->
             <section id="starters" class="menu-section active">
                 <h2 class="section-title">Let's Start</h2>
                 <div class="menu-items">
@@ -624,6 +88,9 @@
                                 <span class="item-price">₹79</span>
                             </div>
                             <p class="item-desc">Tangy and spicy peanut chaat</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -674,6 +141,9 @@
                                 <span class="item-price">₹39</span>
                             </div>
                             <p class="item-desc">Smooth sip with a zesty twist</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -699,7 +169,6 @@
                 </div>
             </section>
 
-            <!-- Soups Section -->
             <section id="soups" class="menu-section">
                 <h2 class="section-title">SOUP</h2>
                 <div class="menu-items">
@@ -721,6 +190,9 @@
                                 <span class="item-price">₹99</span>
                             </div>
                             <p class="item-desc">Spicy Indo Chinese soup with vegetable & crispy noodles</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -766,7 +238,6 @@
                 </div>
             </section>
 
-            <!--Salads section-->
             <section id="salads" class="menu-section">
                 <h2 class="section-title">Your Green Garden</h2>
                 <div class="menu-items">
@@ -822,7 +293,6 @@
                 </div>
             </section>
 
-            <!-- raita section-->
             <section id="raita" class="menu-section">
                 <h2 class="section-title">All About Dahi</h2>
                 <div class="menu-items">
@@ -898,6 +368,9 @@
                                 <span class="item-price">₹229</span>
                             </div>
                             <p class="item-desc">Grilled paneer, bold flavors, unforgettable bite</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -948,6 +421,9 @@
                                 <span class="item-price">₹229</span>
                             </div>
                             <p class="item-desc">Paneer with a punch — bold, tangy, and charred</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -968,6 +444,9 @@
                                 <span class="item-price">₹189</span>
                             </div>
                             <p class="item-desc">Delicate curd patties with a golden crunch and a creamy heart</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1003,6 +482,9 @@
                                 <span class="item-price">₹189</span>
                             </div>
                             <p class="item-desc">Wok-tossed noodles drenched in Schezwan swagger</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1103,6 +585,9 @@
                                 <span class="item-price">₹179</span>
                             </div>
                             <p class="item-desc">Crunch that kicks — corn never tasted this wild</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1113,6 +598,9 @@
                                 <span class="item-price">₹189</span>
                             </div>
                             <p class="item-desc">A golden roll of street-style magic</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1183,6 +671,9 @@
                                 <span class="item-price">₹229</span>
                             </div>
                             <p class="item-desc">Cheese, heat, and crunch — all rolled into one</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1203,6 +694,9 @@
                                 <span class="item-price">₹229</span>
                             </div>
                             <p class="item-desc">Garlic takes the lead, paneer steals the show</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1230,30 +724,1200 @@
                 </div>
             </section>
 
+            <section id="italian" class="menu-section">
+                <h2 class="section-title">Mama miya its Pasta</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">White Sauce Pasta</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">A white sauce wonder with herb-kissed finesse</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Red Sauce Pasta</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Tomato-rich, herb-kissed, and pasta-perfect</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Pink Sauce Pasta</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Creamy meets tangy in a swirl of pink perfection</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cheese Pizza</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc"> A slice of nostalgia, melted to perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Vegetable Pizza</span>
+                                <span class="item-price">₹219</span>
+                            </div>
+                            <p class="item-desc">Fresh from the garden, fired in the oven</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">BBQ Pizza</span>
+                                <span class="item-price">₹219</span>
+                            </div>
+                            <p class="item-desc">BBQ sauce, melty cheese, and toppings that talk back</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer / Mushroom Pizza</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">A fusion of fire, flavor, and cheesy finesse</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Guest Choice Pizza</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Your pizza, your rules — crafted just the way you crave</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Garlic Bread</span>
+                                <span class="item-price">₹109</span>
+                            </div>
+                            <p class="item-desc">Golden crust, garlicky soul — baked to perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cheese Chilly Toasty</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Melted cheese. Fiery chillies. Toasted to perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Exotic Garlic Bread</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">A crunchy canvas topped with cheesy, herby brilliance</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cheese Garlic Bread</span>
+                                <span class="item-price">₹129</span>
+                            </div>
+                            <p class="item-desc">Bread that bites back — buttery, cheesy, unforgettable</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sandwich" class="menu-section">
+                <h2 class="section-title">Sandwich</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Grilled Sandwich</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Street-style soul, café-style finesse</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Masala Sandwich</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Spiced, stuffed, and street-smart</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Cheese Sandwich</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Cheese-loaded, veggie-packed, grilled to golden</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg & Cheese Open Toast</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Open-faced, flavor-packed, and cheese-kissed</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Club Sandwich</span>
+                                <span class="item-price">₹159</span>
+                            </div>
+                            <p class="item-desc">Stacked with crunch, slathered with spice</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Tikka Sandwich</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">From tandoor to toaster — flavor that travels</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Brownie Nutella Sandwich</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Fudgy, gooey, and dangerously delicious</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cross Raw Sandwich</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">No toast, no grill — just raw simplicity done right</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Indori Sev Sandwich</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Crunch on top, spice inside — Indore's sandwich swagger</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Corn Cheese Sandwich</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Sweet corn meets melty cheese — toasted to perfection</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Sabse Accha (Bombay Kaccha)</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">No grill, no fuss — just pure Bombay bite</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Bread butter</span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">Spread, bite, smile — the classic never fades.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="main-course" class="menu-section">
+                <h2 class="section-title">Sabji Helloni</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Kolhapuri</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Crunchy veggies, bold sauces, and noodle nirvana</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Subji Diwani Handi</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Wok-tossed noodles drenched in Schezwan swagger</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Matar Mushroom</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Garlic that bites. Chili that lingers. Noodles that vanish</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dum Aloo Kashmiri</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Smoked to perfection, stirred with soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Lehsuni Palak</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Golden rice, crisp veggies, and a whisper of soy</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Malai Kofta</span>
+                                <span class="item-price">₹219</span>
+                            </div>
+                            <p class="item-desc">Wok-fired rice with a spicy Schezwan kick</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Nargisi Kofta</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">Garlic that sizzles. Chili that bites. Rice that rocks</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Bhindi Masala</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Golden garlic. Smoky whispers. Stir-fried perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Aloo Gobhi Adraki</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Where street-style crunch meets saucy indulgence</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Kaju Curry Red</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Crisp meets kick — glazed potatoes with a sweet sting</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Kaju Curry</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">A wok-tossed riot of flavor and texture</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Sev Tamatar</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Crunch that kicks — corn never tasted this wild</p>
+                            <div class="item-tags">
+                                <span class="tag">Traditional</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dudh Sev</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">A golden roll of street-style magic</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Pindi Chole</span>
+                                <span class="item-price">₹189</span>
+                            </div>
+                            <p class="item-desc">A treasure trove of taste in every coin</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Kofta</span>
+                                <span class="item-price">₹219</span>
+                            </div>
+                            <p class="item-desc">Crunch on a stick — veggies never looked this cool</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Navratan Korma</span>
+                                <span class="item-price">₹239</span>
+                            </div>
+                            <p class="item-desc">Paneer with a punch — bold, saucy, unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Patiyala</span>
+                                <span class="item-price">₹219</span>
+                            </div>
+                            <p class="item-desc">Crispy paneer cubes with a South Indian soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cheese Kofta</span>
+                                <span class="item-price">₹249</span>
+                            </div>
+                            <p class="item-desc">A stir-fry storm with a tender twist</p>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <h2 class="section-title">Some Cottage Cheese (Paneer)</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Butter Paneer Masala</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Where spice meets silk — butter paneer at its finest.</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Tikka Masala</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with a smoky soul and a creamy crown</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Kadhai Paneer</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">From kadai to craving — paneer with punch and personality</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Bell Pepper</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">From wok to wow — paneer with a capsicum twist</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Chatpata</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Tangy, spicy, and totally chatpata — paneer with attitude</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Hara Bhara</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">A creamy swirl of spinach, peas, and paneer perfection</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Sandwich</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Paneer with a punch — grilled, spiced, and sandwich-ready</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Lababdar</span>
+                                <span class="item-price">₹249</span>
+                            </div>
+                            <p class="item-desc">A royal curry with a heart of spice and soul of cream</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Angara</span>
+                                <span class="item-price">₹269</span>
+                            </div>
+                            <p class="item-desc">From ember to indulgence — curry that commands attention</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Kholhapuri</span>
+                                <span class="item-price">₹249</span>
+                            </div>
+                            <p class="item-desc">Paneer in a spice storm — bold, smoky, unforgettable</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Kaju Paneer</span>
+                                <span class="item-price">₹279</span>
+                            </div>
+                            <p class="item-desc">Paneer in a cashew-kissed curry — rich, smooth, unforgettable</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cheese Butter Masala</span>
+                                <span class="item-price">₹289</span>
+                            </div>
+                            <p class="item-desc">Cheese-laced, butter-blessed — indulgence in every spoon</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Makhanwala</span>
+                                <span class="item-price">₹249</span>
+                            </div>
+                            <p class="item-desc">Butter-kissed, spice-blessed — paneer at its finest</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Pasanda</span>
+                                <span class="item-price">₹289</span>
+                            </div>
+                            <p class="item-desc">Stuffed, spiced, and simmered — paneer with a royal twist</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Rajwadi</span>
+                                <span class="item-price">₹289</span>
+                            </div>
+                            <p class="item-desc">Rajwadi royalty in every bite — spice, silk, and soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Makhani Bhurji</span>
+                                <span class="item-price">₹269</span>
+                            </div>
+                            <p class="item-desc">Makhani magic, bhurji bite — fusion that flatters the palate</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Patiala</span>
+                                <span class="item-price">₹279</span>
+                            </div>
+                            <p class="item-desc">Stuffed, spiced, and served with swagger — paneer goes Patiala</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Paneer Maharaja</span>
+                                <span class="item-price">₹269</span>
+                            </div>
+                            <p class="item-desc">From marination to majesty — a dish that rules the table</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <h2 class="section-title">Queen Of Food Times</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dal Fry</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Comfort in a bowl — dal that hugs your soul</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dal Tadka</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Sizzle, smoke, and soul — dal that speaks comfort</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dal Palak</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">From simmer to soul — spinach and lentils in perfect harmony</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dal Lehsuni</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Garlic takes the lead — dal that's bold and unapologetic</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Dal Makhani</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Slow-cooked soul food with a smoky whisper</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Makhani E Dum</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Dum-style indulgence with a superfood soul</p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <h2 class="section-title">It's An Advice To Take Rice</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Steam Rice</span>
+                                <span class="item-price">₹159</span>
+                            </div>
+                            <p class="item-desc">Simple. Steamed. Sublime</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Jeera Rice</span>
+                                <span class="item-price">₹159</span>
+                            </div>
+                            <p class="item-desc">Cumin-kissed comfort in every grain</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilli Onion Rice</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">From wok to wow — onions and chilies in perfect sync</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Green Peas Pulav</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Peas and spice in perfect harmony — pulao that pleases</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Tawa Pulav</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Rice with attitude — spicy, smoky, and street-smart</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Butter Khichdi</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Butter makes it better — khichdi that comforts and captivates</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Veg Biryani</span>
+                                <span class="item-price">₹199</span>
+                            </div>
+                            <p class="item-desc">Aromatic layers, bold flavors — veg biryani that rules the table</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Hydrabadi Biryani</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">From Nizam's kitchen to your cravings — Hyderabadi heritage in every
+                                grain</p>
+                                <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <h2 class="section-title">Bread Basket</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Tandoori Roti Plain</span>
+                                <span class="item-price">₹18</span>
+                            </div>
+                            <p class="item-desc">Simple, smoky, and soul-satisfying</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Tandoori Roti Butter</span>
+                                <span class="item-price">₹22</span>
+                            </div>
+                            <p class="item-desc">Charred, buttered, and born to pair with spice</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Laccha Paratha</span>
+                                <span class="item-price">₹35</span>
+                            </div>
+                            <p class="item-desc">Flaky layers, bold flavor — paratha that plays with texture</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Pudhina Paratha</span>
+                                <span class="item-price">₹40</span>
+                            </div>
+                            <p class="item-desc">Mint meets masala — paratha that refreshes and satisfies</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Plain Naan</span>
+                                <span class="item-price">₹40</span>
+                            </div>
+                            <p class="item-desc">From flame to fame — naan that never needs an introduction</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Butter Naan</span>
+                                <span class="item-price">₹40</span>
+                            </div>
+                            <p class="item-desc">Flame-kissed, butter-brushed — naan that melts hearts</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Garlic Naan</span>
+                                <span class="item-price">₹40</span>
+                            </div>
+                            <p class="item-desc">Garlic-kissed, butter-blessed — naan that steals the spotlight</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chilly Garlic Naan</span>
+                                <span class="item-price">₹45</span>
+                            </div>
+                            <p class="item-desc">Not just naan — it's chilli garlic chaos in every tear</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Onion Chilly Garlic Naan</span>
+                                <span class="item-price">₹45</span>
+                            </div>
+                            <p class="item-desc">From flame to fame — onion, chili, and garlic in perfect sync</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Biscuit Roti</span>
+                                <span class="item-price">₹40</span>
+                            </div>
+                            <p class="item-desc">Not just a roti — it's a crispy conversation starter</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Missi Roti</span>
+                                <span class="item-price">₹30</span>
+                            </div>
+                            <p class="item-desc">Rustic charm, bold flavor — Missi Roti that speaks tradition</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Stuffed Paratha</span>
+                                <span class="item-price">₹45</span>
+                            </div>
+                            <p class="item-desc">From street-side stalls to royal platters — paratha that delivers</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Bread Basket</span>
+                                <span class="item-price">₹169</span>
+                            </div>
+                            <p class="item-desc">Flaky, fluffy, crusty, chewy — every bite a new beginning</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section id="beverages" class="menu-section">
+                <h2 class="section-title">Mocktails</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Fruit Punch</span>
+                                <span class="item-price">₹149</span>
+                            </div>
+                            <p class="item-desc">Sip the rainbow — fruit punch that pops</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Kiwi Margarita</span>
+                                <span class="item-price">₹149</span>
+                            </div>
+                            <p class="item-desc">Sip into summer — kiwi's got a kick</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Virgin Mojito</span>
+                                <span class="item-price">₹89</span>
+                            </div>
+                            <p class="item-desc">Zest meets zest — mojito that's all vibe, no vice</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Blue Lagoon</span>
+                                <span class="item-price">₹79</span>
+                            </div>
+                            <p class="item-desc">Tropical vibes, electric color, instant chill</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Pina Colada</span>
+                                <span class="item-price">₹139</span>
+                            </div>
+                            <p class="item-desc">Creamy coconut, punchy pineapple, and pure paradise</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Orange Blossom</span>
+                                <span class="item-price">₹229</span>
+                            </div>
+                            <p class="item-desc">Citrus soul, floral heart — nature's most elegant bloom</p>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <h2 class="section-title">Shakes</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cold Coffee</span>
+                                <span class="item-price">₹119</span>
+                            </div>
+                            <p class="item-desc">Cool, creamy, and caffeine-kissed</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Cold Coffee With Ice Cream</span>
+                                <span class="item-price">₹139</span>
+                            </div>
+                            <p class="item-desc">Coffee meets cream — sip into indulgence</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Choice Of Shake</span>
+                                <span class="item-price">₹119</span>
+                            </div>
+                            <p class="item-desc">Shake it your way — creamy, dreamy, and totally you</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Oreo Shake</span>
+                                <span class="item-price">₹139</span>
+                            </div>
+                            <p class="item-desc">Cookies, cream, and chill — Oreo Shake that slaps</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Vanilla , Butter Skotch , Chocolate</span>
+                                <span class="item-price">₹119</span>
+                            </div>
+                            <p class="item-desc">Vanilla dreams, butterscotch bliss, and chocolate chaos</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Hot Chocolate</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">From mug to magic — hot chocolate that comforts and charms</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="desserts" class="menu-section">
+                <h2 class="section-title">Suger Tooth</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Gulab Jamun</span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">From royal roots to every celebration — gulab jamun reigns</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Gulab Jamun With Rabdi</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">From royal kitchens to modern cravings — gulab jamun with rabdi reigns
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Sizzler Brownie With Ice Cream</span>
+                                <span class="item-price">₹179</span>
+                            </div>
+                            <p class="item-desc">Sizzle, scoop, and swoon — dessert that performs</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Shahi Tukda</span>
+                                <span class="item-price">₹99</span>
+                            </div>
+                            <p class="item-desc">Golden toast, creamy crown — dessert fit for a king</p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <h2 class="section-title">Him Chim</h2>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Vanilla</span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">Simple, smooth, and timeless — vanilla that never goes out of style</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Chocolate</span>
+                                <span class="item-price">₹59</span>
+                            </div>
+                            <p class="item-desc">Velvet in a scoop — chocolate that melts your mood</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">Butter Skotch</span>
+                                <span class="item-price">₹65</span>
+                            </div>
+                            <p class="item-desc">Golden scoop, caramel soul — butterscotch that melts hearts</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">American Nuts</span>
+                                <span class="item-price">₹69</span>
+                            </div>
+                            <p class="item-desc">From creamy to chunky — it's a flavor rollercoaster</p>
+                            <div class="item-tags">
+                                <span class="tag">Bestseller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </div>
-
-
-
-
     </div>
 
     <footer>
-        <h3>Follow Us On</h3>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-tripadvisor"></i></a>
-        </div>
         <div class="contact-info">
-            <p><i class="fas fa-phone"></i> 9407191111</p>
+            <p><i class="fas fa-phone"></i> 94071 22424</p>
+            <p><i class="fab fa-instagram"></i>paradisehotelreataurant</p>
         </div>
         <div class="address">
-            <p>Indore Ahmedabad Road, In Front of Amrit Paper Mill, Village, Hatod</p>
+            <p>Indore Ahmedabad Road (NH-47), In Front of Amrit Paper Mill, Village, Hatod</p>
         </div>
     </footer>
-    </div>
 
     <!-- Floating navigation button -->
     <div class="floating-nav-btn">
@@ -1264,11 +1928,14 @@
     <div class="quick-nav-panel">
         <button class="quick-nav-btn" data-category="starters">Starters</button>
         <button class="quick-nav-btn" data-category="soups">Soups</button>
+        <button class="quick-nav-btn" data-category="sandwich">Sandwich</button>
+        <button class="quick-nav-btn" data-category="chinese">Chinese</button>
+        <button class="quick-nav-btn" data-category="italian">Italian</button>
+        <button class="quick-nav-btn" data-category="beverages">Beverages</button>
         <button class="quick-nav-btn" data-category="salads">Salads</button>
         <button class="quick-nav-btn" data-category="raita">Raita</button>
         <button class="quick-nav-btn" data-category="tandoor">Tandoor</button>
         <button class="quick-nav-btn" data-category="main-course">Main Course</button>
-        <button class="quick-nav-btn" data-category="beverages">Beverages</button>
         <button class="quick-nav-btn" data-category="desserts">Desserts</button>
     </div>
 
@@ -1288,126 +1955,7 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const categoryButtons = document.querySelectorAll('.category-btn');
-            const menuSections = document.querySelectorAll('.menu-section');
-            const floatingNavBtn = document.querySelector('.floating-nav-btn');
-            const quickNavPanel = document.querySelector('.quick-nav-panel');
-            const quickNavBtns = document.querySelectorAll('.quick-nav-btn');
-            const scrollToTopBtn = document.querySelector('.scroll-to-top');
-            const categoryNav = document.querySelector('.category-nav');
-            const menuItems = document.querySelectorAll('.menu-item');
-            const itemModal = document.querySelector('.item-modal');
-            const closeModal = document.querySelector('.close-modal');
-
-            // Category navigation
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const category = this.getAttribute('data-category');
-
-                    // Update active button
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Show corresponding section
-                    menuSections.forEach(section => {
-                        section.classList.remove('active');
-                        if (section.id === category) {
-                            section.classList.add('active');
-                        }
-                    });
-
-                    // Close quick nav panel if open
-                    quickNavPanel.classList.remove('active');
-                });
-            });
-
-            // Floating navigation button
-            floatingNavBtn.addEventListener('click', function () {
-                quickNavPanel.classList.toggle('active');
-            });
-
-            // Quick navigation buttons
-            quickNavBtns.forEach(button => {
-                button.addEventListener('click', function () {
-                    const category = this.getAttribute('data-category');
-
-                    // Update active button in main nav
-                    categoryButtons.forEach(btn => {
-                        btn.classList.remove('active');
-                        if (btn.getAttribute('data-category') === category) {
-                            btn.classList.add('active');
-                        }
-                    });
-
-                    // Show corresponding section
-                    menuSections.forEach(section => {
-                        section.classList.remove('active');
-                        if (section.id === category) {
-                            section.classList.add('active');
-                            section.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    });
-
-                    // Close quick nav panel
-                    quickNavPanel.classList.remove('active');
-                });
-            });
-
-            // Scroll to top button
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 300) {
-                    scrollToTopBtn.classList.add('active');
-                } else {
-                    scrollToTopBtn.classList.remove('active');
-                }
-
-                // Sticky category nav
-                if (window.scrollY > 100) {
-                    categoryNav.classList.add('scrolled');
-                } else {
-                    categoryNav.classList.remove('scrolled');
-                }
-            });
-
-            scrollToTopBtn.addEventListener('click', function () {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            // Menu item click for details
-            menuItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const name = this.querySelector('.item-name').textContent;
-                    const price = this.querySelector('.item-price').textContent;
-                    const desc = this.querySelector('.item-desc').textContent;
-                    const tags = this.querySelector('.item-tags').innerHTML;
-
-                    document.querySelector('.modal-title').textContent = name;
-                    document.querySelector('.modal-price').textContent = price;
-                    document.querySelector('.modal-desc').textContent = desc;
-                    document.querySelector('.modal-tags').innerHTML = tags;
-
-                    itemModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-
-            // Close modal
-            closeModal.addEventListener('click', function () {
-                itemModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-
-            // Close modal when clicking outside
-            itemModal.addEventListener('click', function (e) {
-                if (e.target === itemModal) {
-                    itemModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-    </script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
