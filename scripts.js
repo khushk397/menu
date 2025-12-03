@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const categoryButtons = document.querySelectorAll('.category-btn');
     const menuSections = document.querySelectorAll('.menu-section');
     const floatingNavBtn = document.querySelector('.floating-nav-btn');
@@ -10,113 +10,98 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemModal = document.querySelector('.item-modal');
     const closeModal = document.querySelector('.close-modal');
 
-    // Category navigation
+    /* ---------- CATEGORY NAV ---------- */
     categoryButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const category = this.getAttribute('data-category');
+        button.addEventListener('click', () => {
+            const category = button.getAttribute('data-category');
 
-            // Update active button
             categoryButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+            button.classList.add('active');
 
-            // Show corresponding section
             menuSections.forEach(section => {
-                section.classList.remove('active');
-                if (section.id === category) {
-                    section.classList.add('active');
-                }
+                section.classList.toggle('active', section.id === category);
             });
 
-            // Close quick nav panel if open
-            quickNavPanel.classList.remove('active');
+            if (quickNavPanel) quickNavPanel.classList.remove('active');
         });
     });
 
-    // Floating navigation button
-    floatingNavBtn.addEventListener('click', function () {
-        quickNavPanel.classList.toggle('active');
-    });
-
-    // Quick navigation buttons
-    quickNavBtns.forEach(button => {
-        button.addEventListener('click', function () {
-            const category = this.getAttribute('data-category');
-
-            // Update active button in main nav
-            categoryButtons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-category') === category) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Show corresponding section
-            menuSections.forEach(section => {
-                section.classList.remove('active');
-                if (section.id === category) {
-                    section.classList.add('active');
-                    // Scroll to section
-                    setTimeout(() => {
-                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                }
-            });
-
-            // Close quick nav panel
-            quickNavPanel.classList.remove('active');
+    /* ---------- FLOATING QUICK NAV ---------- */
+    if (floatingNavBtn && quickNavPanel) {
+        floatingNavBtn.addEventListener('click', () => {
+            quickNavPanel.classList.toggle('active');
         });
-    });
 
-    // Scroll to top button
-    window.addEventListener('scroll', function () {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('active');
-        } else {
-            scrollToTopBtn.classList.remove('active');
+        quickNavBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                // sync main nav
+                categoryButtons.forEach(btn => {
+                    const matches = btn.getAttribute('data-category') === category;
+                    btn.classList.toggle('active', matches);
+                });
+
+                // show section and scroll
+                menuSections.forEach(section => {
+                    const isMatch = section.id === category;
+                    section.classList.toggle('active', isMatch);
+                    if (isMatch) {
+                        setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+                    }
+                });
+
+                quickNavPanel.classList.remove('active');
+            });
+        });
+    }
+
+    /* ---------- SCROLL TO TOP + STICKY NAV ---------- */
+    window.addEventListener('scroll', () => {
+        if (scrollToTopBtn) {
+            scrollToTopBtn.classList.toggle('active', window.scrollY > 280);
         }
-
-        // Sticky category nav
-        if (window.scrollY > 100) {
-            categoryNav.classList.add('scrolled');
-        } else {
-            categoryNav.classList.remove('scrolled');
+        if (categoryNav) {
+            categoryNav.classList.toggle('scrolled', window.scrollY > 80);
         }
     });
 
-    scrollToTopBtn.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Menu item click for details
-    menuItems.forEach(item => {
-        item.addEventListener('click', function () {
-            const name = this.querySelector('.item-name').textContent;
-            const price = this.querySelector('.item-price').textContent;
-            const desc = this.querySelector('.item-desc').textContent;
-            const tagsElement = this.querySelector('.item-tags');
-            const tags = tagsElement ? tagsElement.innerHTML : '';
-
-            document.querySelector('.modal-title').textContent = name;
-            document.querySelector('.modal-price').textContent = price;
-            document.querySelector('.modal-desc').textContent = desc;
-            document.querySelector('.modal-tags').innerHTML = tags;
-
-            itemModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-    });
+    }
 
-    // Close modal
-    closeModal.addEventListener('click', function () {
-        itemModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
+    /* ---------- ITEM MODAL ---------- */
+    if (itemModal && closeModal) {
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const name = item.querySelector('.item-name')?.textContent || '';
+                const price = item.querySelector('.item-price')?.textContent || '';
+                const desc = item.querySelector('.item-desc')?.textContent || '';
+                const tagsElement = item.querySelector('.item-tags');
+                const tags = tagsElement ? tagsElement.innerHTML : '';
 
-    // Close modal when clicking outside
-    itemModal.addEventListener('click', function (e) {
-        if (e.target === itemModal) {
+                document.querySelector('.modal-title').textContent = name;
+                document.querySelector('.modal-price').textContent = price;
+                document.querySelector('.modal-desc').textContent = desc;
+                document.querySelector('.modal-tags').innerHTML = tags;
+
+                itemModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
             itemModal.classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-    });
+        });
+
+        itemModal.addEventListener('click', e => {
+            if (e.target === itemModal) {
+                itemModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 });
